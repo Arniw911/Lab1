@@ -1,23 +1,33 @@
 #Ex 1
 import os
 
-def dir(path, list_all): 
+def listdir(path):
+    print("Directories:")
+    listofdir = []
+    for entry in os.listdir(path):
+        if os.path.isdir(os.path.join(path, entry)):
+            listofdir.append(entry)
+    return listofdir
+    
+def listfiles(path):
+    print("Files:")
+    listoffiles = []
+    for entry in os.listdir(path):
+        if os.path.isfile(os.path.join(path, entry)):
+            listoffiles.append(entry)
+    return listoffiles
+    
+def listdirfiles(path):
+    print("Directories and Files:")
+    listofdirfiles = []
+    for entry in os.listdir(path):
+        if os.path.isfile(os.path.join(path, entry)) or os.path.isdir(os.path.join(path, entry)):
+            listofdirfiles.append(entry)
+    return listofdirfiles
 
-    for dir_name in os.listdir(path):
-        if os.path.isdir(os.path.join(path, dir_name)):
-            print(dir_name)
-            if list_all:
-                dir(os.path.join(path, dir_name))
-
-def files(path,list_all):
-    for file_name in os.listdir(path):
-        if os.path.isfile(os.path.join(path, file_name)):
-            print(file_name)
-        if list_all and os.path.isdir(os.path.join(path, file_name)):
-            files(os.path.join(path, file_name), True)
-
-
-files("../", True)
+print(listdir("C:/Users/user/Desktop/English"))
+print(listfiles("C:/Users/user/Desktop/English"))
+print(listdirfiles("C:/Users/user/Desktop/English"))
 
 
 
@@ -47,7 +57,7 @@ def check(path):
     else:
         print(f"The path '{path}' is a directory, so we don't check for executability.")
 
-check("2.py")
+check("dirnfiles.py")
 
 
 
@@ -69,42 +79,42 @@ checkPath("pp2\Labs\lab6\Directories_and_Files/dirnfiles3.py")
 
 
 #Ex 4
-counter = 0
+def countl(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+        return len(lines)
 
-f = open("example.txt","w") 
-for i in range(1,10+1):
-        f.write(str(i)+"\n")
-f.close()        
-
-f = open("example.txt","r")
-for i in f:
-    counter+=1
-    
-print(counter)        
+filename = 'here input path'
+line_count = countl(filename)
+print(f"The number of lines in the file '{filename}' is {line_count}.")    
 
 
 
 #Ex 5
-def listToStr(lst):
-    mystr = "["
-    for i in lst:
-        mystr+=i+", "
-    if len(lst)>0:    
-        mystr = mystr[:-2]
-    mystr+="]"
-    return mystr    
+def writelist(list_items, filename):
+    with open(filename, 'w') as file:
+        for item in list_items:
+            file.write(f"{item}\n")
 
-lst = [x for x in "RANDOM STRING"]
+my_list = ['apple', 'banana', 'cherry']
+filename = 'my_list.txt'
 
-with open("list.txt","w") as f:
-    f.write(listToStr(lst))
+writelist(my_list, filename)
+print(f"The list has been written to the file '{filename}'.")
 
 
 
 #Ex 6
-for j in [chr(i) for i in range(65,91)]:
-    f = open(f"{j}.txt", "w")
-    f.close()
+import string
+
+def generatefiles():
+    for letter in string.ascii_uppercase:
+        filename = f"{letter}.txt"
+        with open(filename, 'w') as file:
+            file.write(f"This is file {letter}.txt")
+
+generatefiles()
+print("26 text files have been generated.")
 
 
 
@@ -130,11 +140,11 @@ def deleteFile(path):
     if os.path.isfile(path):
         if os.access(path,os.X_OK):
             os.remove(path)
-            print(f"The file '{path}' was removed.")
+            print(f"The file '{path}' has been removed.")
         else:
             print(f"The file '{path}' is not executable.")
     else:
-        print(f"The path '{path}' is a directory, so executability is not applicable.")
+        print(f"The path '{path}' is a directory, so we don't check for executability.")
 
 
 deleteFile("this_file_will_be_removed.txt")
