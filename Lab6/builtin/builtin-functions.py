@@ -16,32 +16,31 @@ for i in my_str:
         lower_num+=1
     elif i.isupper():
         upper_num+=1
-print("Amount of lower case letters is {}, amount of upper is {}".format(lower_num,upper_num))   
+print("Number of lowercase letters is {} and number of uppercase letters is {}".format(lower_num,upper_num))   
 
 #Ex 3
 def isPalindrome(string):
-    return string==string[::-1]
+    string2 = ''.join(reversed(string))
+    return string==string2
 print(isPalindrome("walaw"))
 
 #Ex 4 
 import time
-from threading import Timer
-from math import sqrt
+import math
 
-def delayedSquareRoot(number, delay_ms):
-    def square_root():
-        result = sqrt(number)
-        print(f"Square root of {number} after {delay_ms} milliseconds is {result}")
+def squareRoot(number):
+    return math.sqrt(number)
+def delay(number, delay_ms):
+    delaySeconds = delay_ms / 1000
+    time.sleep(delaySeconds)
+    result = squareRoot(number)
+    print(f"The square root of {number} after {delay_ms} is {result}")
 
-    t = Timer(delay_ms / 1000, square_root)
-    t.start()
+num = int(input())
+delaytime = int(input())
 
-number = 25100
-delay_ms = 2123
-delayedSquareRoot(number, delay_ms)
+delay(num, delaytime)
 
-while True:
-    time.sleep(1)
 
 
 #Ex 5
