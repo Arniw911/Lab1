@@ -9,9 +9,9 @@ screen = pygame.display.set_mode((width, length))
 running = True
 clock = pygame.time.Clock()
 
-right = pygame.image.load("rightarm.png")
-left = pygame.image.load("leftarm.png")
-layer = pygame.image.load("mainclock.png")
+right = pygame.image.load("Pics and music/leftarm.png")
+left = pygame.image.load("Pics and music/rightarm.png")
+layer = pygame.image.load("Pics and music/mainclock.png")
 
 minutes = 0
 seconds = -45
