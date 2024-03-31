@@ -25,9 +25,9 @@ screen.blit(command3, (0, length/2.1))
 screen.blit(command4, (0, length/1.9))
 pygame.display.flip()
 
-playlist = ["C:/Users/user/Desktop/labpygames/Star Wars - Cantina Song.mp3",
-    "C:/Users/user/Desktop/labpygames/Dos-muqasan - Toy jyry.mp3",
-    "C:/Users/user/Desktop/labpygames/Daft Punk - Around The World.mp3"]
+playlist = ["Pics and music/Star Wars - Cantina Song.mp3",
+            "Pics and music/Dos-muqasan - Toy jyry.mp3",
+            "Pics and music/Daft Punk - Around The World.mp3"]
 
 def play_music(track_index):
     if 0 <= track_index < len(playlist):
