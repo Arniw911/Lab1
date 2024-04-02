@@ -1,4 +1,5 @@
 import pygame
+import pygame
 import random
 pygame.init()
 
@@ -59,12 +60,13 @@ def detect_collision(dx, dy, ball, rect, is_breakable):
 
     return dx, dy
 
-
-
 # Block settings
 block_list = [pygame.Rect(10 + 120 * i, 50 + 70 * j, 100, 50) for i in range(10) for j in range(4)]
 color_list = [(random.randrange(0, 255), random.randrange(0, 255),  random.randrange(0, 255)) for i in range(10) for j in range(4)]
 unbreakable_blocks = [pygame.Rect(10 + 120 * i, 50 + 70 * j, 100, 50) for i in range(2, 8) for j in range(1, 3)]  # Unbreakable blocks
+
+# Bonus blocks
+bonus_blocks = [pygame.Rect(10 + 120 * i, 50 + 70 * j, 100, 50) for i in range(4, 6) for j in range(2, 3)]  # Bonus blocks
 
 # Game over screen
 losefont = pygame.font.SysFont('comicsansms', 40)
@@ -90,6 +92,7 @@ while not done:
     # Drawing blocks
     [pygame.draw.rect(screen, color_list[color], block) for color, block in enumerate(block_list)]
     [pygame.draw.rect(screen, (128, 128, 128), block) for block in unbreakable_blocks]  # Drawing unbreakable blocks
+    [pygame.draw.rect(screen, (255, 255, 0), block) for block in bonus_blocks]  # Drawing bonus blocks
     pygame.draw.rect(screen, pygame.Color(255, 255, 255), paddle)
     pygame.draw.circle(screen, pygame.Color(255, 0, 0), ball.center, ballRadius)
 
@@ -122,6 +125,22 @@ while not done:
         unbreakable_rect = unbreakable_blocks[unbreakable_collision_index]
         dx, dy = detect_collision(dx, dy, ball, unbreakable_rect, False)  # False because unbreakable block
 
+    # Collision with bonus blocks
+    bonus_collision_index = ball.collidelist(bonus_blocks)
+    if bonus_collision_index != -1:
+        bonus_rect = bonus_blocks.pop(bonus_collision_index)
+        dx, dy = detect_collision(dx, dy, ball, bonus_rect, True)  # True because bonus block is breakable
+        paddleW = 300  # Make paddle super wide
+        pygame.time.set_timer(pygame.USEREVENT, 5000)  # Set a timer for 5 seconds
+
+    # Event to reset paddle size after 5 seconds
+    if event.type == pygame.USEREVENT:
+        paddleW = 150  # Reset paddle width to normal
+        pygame.time.set_timer(pygame.USEREVENT, 0)  # Stop the timer
+
+    # Update paddle with new width
+    paddle = pygame.Rect(paddle.left, paddle.top, paddleW, paddleH)
+
     # Game score
     game_score_text = game_score_fonts.render(f'Your game score is: {game_score}', True, (255, 255, 255))
     screen.blit(game_score_text, game_score_rect)
@@ -130,7 +149,7 @@ while not done:
     if ball.bottom > H:
         screen.fill((0, 0, 0))
         screen.blit(losetext, losetextRect)
-    elif not len(block_list):
+    elif not len(block_list) and not len(bonus_blocks):
         screen.fill((255, 255, 255))
         screen.blit(wintext, wintextRect)
 
@@ -142,9 +161,9 @@ while not done:
         paddle.right += paddleSpeed
 
     # Increase ball speed and shrink paddle with time
-    time_elapsed += 1
+    time_elapsed += 0.1
     if time_elapsed % (FPS * 30) == 0:  # Every 30 seconds
-        ballSpeed += 1
+        ballSpeed += 132
         paddleW = max(50, paddleW - 10)
         paddle = pygame.Rect(paddle.left, paddle.top, paddleW, paddleH)
 
