@@ -1,4 +1,4 @@
-import pygame
+game
 
 def main():
     pygame.init()
@@ -34,6 +34,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:    # Red
                     mode = 'red'
+                elif event.key == pygame.K_1:  # Black
+                    mode = 'black'
                 elif event.key == pygame.K_g:  # Green
                     mode = 'green'
                 elif event.key == pygame.K_b:  # Blue
