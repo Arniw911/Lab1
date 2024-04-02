@@ -118,7 +118,7 @@ while True:
     DISPLAYSURF.blit(background, (0, 0))
     scores = font_small.render(str(SCORE), True, BLACK)
     DISPLAYSURF.blit(scores, (10, 10))
-    coins_count = font_small.render(str(COINS_COLLECTED), True, GOLD)  # Display collected coins count  <-- Added feature
+    coins_count = font_small.render(str(COINS_COLLECTED), True, BLACK)  # Display collected coins count  <-- Added feature
     DISPLAYSURF.blit(coins_count, (SCREEN_WIDTH - 50, 10))  # Position the coins count at the top right corner  <-- Added feature
 
     # Moves and Re-draws all Sprites
